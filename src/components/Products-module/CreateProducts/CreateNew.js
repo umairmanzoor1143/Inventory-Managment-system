@@ -101,8 +101,8 @@ const CreateNewPage = () => {
                 label="Product Type"
               >
                 <Select>
-                  {/* <Select.Option value="Eboves">Eboves</Select.Option>
-                  <Select.Option value="OtherSuppliers">Other Suppliers</Select.Option> */}
+                  <Select.Option value="Eboves">Eboves</Select.Option>
+                  <Select.Option value="OtherSuppliers">Other Suppliers</Select.Option>
                 </Select>
               </Form.Item>
             </Col>
