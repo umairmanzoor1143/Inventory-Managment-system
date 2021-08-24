@@ -27,10 +27,6 @@ const CreateNewPage = () => {
 
   console.log(myState);
 
-  /* eslint-disable no-template-curly-in-string */
-
-  /* eslint-enable no-template-curly-in-string */
-
   const onFinish = (values: any) => {
     console.log(values);
   };
@@ -105,8 +101,8 @@ const CreateNewPage = () => {
                 label="Product Type"
               >
                 <Select>
-                  <Select.Option value="Eboves">Eboves</Select.Option>
-                  <Select.Option value="OtherSuppliers">Other Suppliers</Select.Option>
+                  {/* <Select.Option value="Eboves">Eboves</Select.Option>
+                  <Select.Option value="OtherSuppliers">Other Suppliers</Select.Option> */}
                 </Select>
               </Form.Item>
             </Col>
