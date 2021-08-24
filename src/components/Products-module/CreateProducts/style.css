@@ -1,0 +1,39 @@
+.t-row {
+    padding-top: 15px;
+}
+.ant-advanced-search-form,
+.search-result-list {
+  padding: 24px;
+  background: #fbfbfb;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+}
+
+.ant-advanced-search-form .ant-form-item,
+.ant-advanced-search-form .ant-form-item {
+  display: flex;
+}
+
+.ant-advanced-search-form .ant-form-item-control-wrapper,
+.ant-advanced-search-form .ant-form-item-control-wrapper {
+  flex: 1;
+}
+.flex { 
+    display: flex;
+    justify-content: space-between;
+    margin: 30px;
+    background-color: #fff;
+    height: 50px;
+    align-items: center;
+    padding:20px ;
+}
+
+
+
+.CreateHeader {
+  background: #fff;
+ 
+  margin-top: 8px;
+  padding: 25px;
+  text-align: initial;
+}
