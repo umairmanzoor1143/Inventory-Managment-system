@@ -1,9 +1,7 @@
-import { Form, Input, Button, Select, Col, Row,Cascader } from "antd";
+import { Form, Input, Button, Select, Col, Row, Cascader,Divider } from "antd";
 import UploadImage from "./UploadImg";
 import { Empty, Card } from "antd";
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { brandAction, suppliersAction } from "../../../Services/Actions/action";
 
 const validateMessages = {
   required: "${label} is required!",
@@ -17,19 +15,18 @@ const validateMessages = {
 };
 const CreateNewPage = () => {
   const myState = useSelector((state) => state);
-  const Dispatch = useDispatch();
-  useEffect(() => {
-    Dispatch(brandAction());
-    Dispatch(suppliersAction());
-  }, []);
+  
   const BrandStatus = myState.BrandsReduce.Brands || [];
   const SuppliersStatus = myState.suppliersReduce.suppliers || [];
-
+  const cetagorysStatus = myState.cetagorysReduce.cetagory || [];
   console.log(myState);
 
   const onFinish = (values: any) => {
     console.log(values);
   };
+  function onChange(value) {
+    console.log(value);
+  }
   return (
     <>
       <Card
@@ -37,6 +34,7 @@ const CreateNewPage = () => {
         bordered={false}
         style={{ width: "90%", margin: 50, textAlign: "left" }}
       >
+        <Divider orientation="left">Basic Information</Divider>
         <Form
           layout="vertical"
           style={{ margin: "30px", background: "#fff", padding: "30px" }}
@@ -102,19 +100,17 @@ const CreateNewPage = () => {
               >
                 <Select>
                   <Select.Option value="Eboves">Eboves</Select.Option>
-                  <Select.Option value="OtherSuppliers">Other Suppliers</Select.Option>
+                  <Select.Option value="OtherSuppliers">
+                    Other Suppliers
+                  </Select.Option>
                 </Select>
               </Form.Item>
             </Col>
             <Col lg={12} md={12} sm={12}>
-              <Form.Item
-                name={["Stock", "Stock"]}
-                label="Stock Available At"
-              >
+              <Form.Item name={["Stock", "Stock"]} label="Stock Available At">
                 <Select>
                   <Select.Option value="Web">Web</Select.Option>
                   <Select.Option value="Store">Store</Select.Option>
-
                 </Select>
               </Form.Item>
             </Col>
@@ -125,7 +121,14 @@ const CreateNewPage = () => {
             label="Category"
           >
             <Select>
-              <Select.Option value="demo">Demo</Select.Option>
+            {cetagorysStatus.map((item) => (
+                    <>
+                      <Select.Option value={item.name}>
+                        {item.name}
+                      </Select.Option>
+                    </>
+                  ))}
+         
             </Select>
           </Form.Item>
           <Form.Item name={["user", "Description"]} label="Description">

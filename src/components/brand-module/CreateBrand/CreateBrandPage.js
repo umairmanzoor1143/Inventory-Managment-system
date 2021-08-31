@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { Form, Row, Col, Input, Button } from "antd";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import SevenInputs, { TwoInputs } from "./CreateBrandInputs";
 import "./style.css";
 import BrandTables from "../BrandTable/BrandTable";
+import { brandsAction } from "../Services/Actions/action";
+import { BRANDS_DATA } from "../Services/constent";
+import { useDispatch } from "react-redux";
+
 const CreateBrandPage = () => {
+  const Dispatch = useDispatch();
+  useEffect(() => {
+    Dispatch(brandsAction());
+    return () => {
+      Dispatch({
+        type : BRANDS_DATA.RESET_STATE
+      });
+    }
+  }, []);
   const [expand, setExpand] = useState(true);
   const [form] = Form.useForm();
 

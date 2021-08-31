@@ -1,6 +1,17 @@
-import { Table, Button } from "antd";
+import { Table, Button, Switch } from "antd";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory, } from "react-router";
+import DrawerPage from "../components/drawer";
+import { useState } from "react";
+
 const Tables = () => {
+  const [editDrawer, setEditDrawer] = useState([]);
+  const Dispatch = useDispatch();
+  const history = useHistory();
+  const myState = useSelector((state) => state);
+  const outletStatus = myState.OutletsReduce.outlets || [];
+ 
   const columns = [
     {
       title: "Name",
@@ -8,35 +19,26 @@ const Tables = () => {
     },
     {
       title: "Manager",
-      dataIndex: "manager",
+      dataIndex: "managerId",
     },
     {
       title: "Active",
       dataIndex: "active",
-      filters: [
-        {
-          text: "Joe",
-          value: "Joe",
+      valueEnum: {
+        true: {
+          text: 'Active',
         },
-        {
-          text: "Jim",
-          value: "Jim",
+        false: {
+          text: 'Inactive',
         },
-        {
-          text: "Submenu",
-          value: "Submenu",
-          children: [
-            {
-              text: "Green",
-              value: "Green",
-            },
-            {
-              text: "Black",
-              value: "Black",
-            },
-          ],
-        },
-      ],
+      },
+      defaultSortOrder: "descend",
+      
+      render: (_, record: BrandItem) => (
+        <span>
+        <Switch checked={record.active} />
+        </span>
+      ),
       // specify the condition of filtering result
       // here is that finding the name started with `value`
       onFilter: (value, record) => record.name.indexOf(value) === 0,
@@ -45,42 +47,23 @@ const Tables = () => {
     },
     {
       title: "Create At",
-      dataIndex: "create",
+      dataIndex: "createdAt",
       defaultSortOrder: "descend",
       sorter: (a, b) => a.age - b.age,
     },
     {
-        title: "Action",
-      dataIndex: "action",
-    }
+      title: "Action",
+    dataIndex: "action",
+    valueType: 'option',
+    render: (_, record: BrandItem) => (
+      <span className="table-operation">
+        <a >Edit</a>
+      </span>
+    ),
+  }
     
   ];
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-    },
-    {
-      key: "4",
-      name: "Jim Red",
-      age: 32,
-      address: "London No. 2 Lake Park",
-    },
-  ];
+ 
   function onChange(pagination, filters, sorter, extra) {
     console.log("params", pagination, filters, sorter, extra);
   }
@@ -98,7 +81,7 @@ const Tables = () => {
       <Table
         style={{ margin: "30px" }}
         columns={columns}
-        dataSource={data}
+        dataSource={outletStatus}
         onChange={onChange}
       />
     </>

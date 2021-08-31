@@ -1,0 +1,2 @@
+export const OUTLETS_DATA = { OUTLETS : 'OUTLETS', RESET_STATE : 'RESET_STATE',
+};

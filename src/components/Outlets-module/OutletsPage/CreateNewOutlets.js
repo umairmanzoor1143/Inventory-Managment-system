@@ -1,20 +1,23 @@
 import { Form, Input, Button, Select, Col, Row } from "antd";
 import { Card } from "antd";
+import { useParams } from "react-router";
+ /* eslint-disable no-template-curly-in-string */
+ const validateMessages = {
+  required: "${label} is required!",
+  types: {
+    email: "${label} is not a valid email!",
+    number: "${label} is not a valid number!",
+  },
+  number: {
+    range: "${label} must be between ${min} and ${max}",
+  },
+};
+/* eslint-enable no-template-curly-in-string */
 const CreateNewOutlets = () => {
   const { TextArea } = Input;
-
-  /* eslint-disable no-template-curly-in-string */
-  const validateMessages = {
-    required: "${label} is required!",
-    types: {
-      email: "${label} is not a valid email!",
-      number: "${label} is not a valid number!",
-    },
-    number: {
-      range: "${label} must be between ${min} and ${max}",
-    },
-  };
-  /* eslint-enable no-template-curly-in-string */
+  const myparams = useParams()
+console.log(myparams);
+ 
 
   const onFinish = (values: any) => {
     console.log(values);

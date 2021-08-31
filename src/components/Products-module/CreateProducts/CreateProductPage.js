@@ -1,11 +1,26 @@
 import React, { useState } from "react";
-import { Form, Row, Col, Input, Button } from "antd";
+import { Form, Row, Col, Input, Button,Spin } from "antd";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import SevenInputs, { TwoInputs } from "./CreateProductInputs";
 import "./style.css";
 import Tables from "../table/table";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  suppliersAction,
+  cetagorysAction,
+} from "../../../Services/Actions/action";
+
+
 const CreateProductPage = () => {
+  const Dispatch = useDispatch();
   const [expand, setExpand] = useState(true);
+  useEffect(() => {
+    Dispatch(suppliersAction());
+    Dispatch(cetagorysAction());
+  }, []);
+  const myState = useSelector((state) => state);
+ 
   const [form] = Form.useForm();
 
   const getFields = (props) => {
@@ -22,6 +37,7 @@ const CreateProductPage = () => {
 
   return (
     <>
+    
       <Form
         style={{ margin: "30px" }}
         form={form}
@@ -54,6 +70,7 @@ const CreateProductPage = () => {
         </Col>
       </Form>
       <Tables />
+      
     </>
   );
 };

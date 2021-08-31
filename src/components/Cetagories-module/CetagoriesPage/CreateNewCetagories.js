@@ -2,9 +2,12 @@ import { Form, Input, Button, Select, Col, Row } from "antd";
 import UploadImage from "./UploadImg";
 import { Card } from "antd";
 import AddTags from "./CetagoriesTags";
+import { useEffect, useState } from "react";
+import { CETAGORIES_DATA } from "../Services/constent";
+import { useHistory, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { CetagorieUpdateAction } from '../Services/Actions/action'
 
-const CreateNewCetagories = () => {
-  const { TextArea } = Input;
 
   /* eslint-disable no-template-curly-in-string */
   const validateMessages = {
@@ -18,7 +21,41 @@ const CreateNewCetagories = () => {
     },
   };
   /* eslint-enable no-template-curly-in-string */
+const CreateNewCetagories = () => {
+  const { TextArea } = Input;
+  const [form] = Form.useForm();
 
+  const Dispatch = useDispatch();
+  const myparams = useParams()
+  const history = useHistory();
+  console.log(myparams);
+  useEffect(() => {
+    if(myparams.id){
+      Dispatch(CetagorieUpdateAction(myparams.id));
+    };
+    return () => {
+      Dispatch({
+        type : CETAGORIES_DATA.RESET_STATE
+      });
+      form.resetFields();
+    };
+    
+  }, []);
+
+  const myState = useSelector((state) => state.CetagorieReduce.Cetagorie);
+  console.log(myState); 
+
+  useEffect(() => {
+    if(myState){
+      const values = {
+        ...myState,
+        logo : myState.logo ? [{ uid: 1, url: myState.logo }] : null,
+        storyCover: myState.storyCover ? [{ uid: 1, url: myState.storyCover }] : null,
+        metaKeywords: myState.metaKeywords?.split(','),
+      };
+      form.setFieldsValue(values);
+    }
+  },[myState]);
   const onFinish = (values: any) => {
     console.log(values);
   };
@@ -34,6 +71,7 @@ const CreateNewCetagories = () => {
             layout="horizontal"
             style={{ margin: "30px", background: "#fff", width: "100%" }}
             name="nest-messages"
+            form={form}
             onFinish={onFinish}
             validateMessages={validateMessages}
           >

@@ -1,17 +1,6 @@
 import { FATCH_DATA } from '../constent'
 const initialState =  {};
 
-export default function BrandsReduce(state = initialState, action) {
-    switch (action.type) {
-        case FATCH_DATA.BRANS:
-            return{ ...state, Brands : action.payload.data.data};
-              
-        default:
-            return state
-    }
-
-
-}
 export function suppliersReduce(state = initialState, action) {
     switch (action.type) {
         case FATCH_DATA.SUPPLIERS:
@@ -23,3 +12,15 @@ export function suppliersReduce(state = initialState, action) {
 
 
 }
+export function cetagorysReduce(state = initialState, action) {
+    switch (action.type) {
+        case FATCH_DATA.CETAGORY:
+            return{ ...state, cetagory : action.payload.data.data};
+              
+        default:
+            return state
+    }
+
+
+}
+

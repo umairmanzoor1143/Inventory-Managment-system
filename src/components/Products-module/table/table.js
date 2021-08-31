@@ -1,6 +1,8 @@
-import { Table, Button } from "antd";
+import { Table, Button,Switch } from "antd";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 const Tables = () => {
+ 
   const columns = [
     {
       title: "Product",
@@ -62,7 +64,18 @@ const Tables = () => {
     },{
         title: "Active",
       dataIndex: "active",
+      sorter: true,
+      width: '10%',
+      valueEnum: {
+        true: {
+          text: 'Active',
+        },
+        false: {
+          text: 'Inactive',
+        },
+      },
     },
+    
     {
         title: "Created At",
       dataIndex: "createdAt",
