@@ -13,7 +13,7 @@ const CetagoriesPage = () => {
     Dispatch(CetagoriesAction());
     return () => {
       Dispatch({
-        type : CETAGORIES_DATA.RESET_STATE
+        type : CETAGORIES_DATA.RESET_CETAGORIES_STATE,
       });
     }
   }, []);

@@ -1,13 +1,24 @@
-import React, { useState } from "react";
-import { Form, Row, Col, Input, Button } from "antd";
-import { DownOutlined, UpOutlined } from "@ant-design/icons";
+import React, { useEffect } from "react";
+import { Form, Row, Col, Input, Button, Spin } from "antd";
 import TwoInputs from "./AttributesInputs";
 import "./style.css";
 import Tables from "../AttributesTable/table";
-const AttributesPage = () => {
-  const [expand, setExpand] = useState(true);
-  const [form] = Form.useForm();
+import { AttributesAction } from "../Services/Actions/action";
+import { useDispatch } from "react-redux";
+import { ATTRIBUTES_DATA } from "../Services/constent";
 
+const AttributesPage = () => {
+  const [form] = Form.useForm();
+  const Dispatch = useDispatch();
+  useEffect(() => {
+    Dispatch(AttributesAction());
+    return () => {
+      Dispatch({
+        type : ATTRIBUTES_DATA.RESET_ATTRIBUTES_STATE
+      });
+      form.resetFields();
+    }
+  }, []);
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
@@ -38,6 +49,7 @@ const AttributesPage = () => {
         </Col>
       </Form>
       </Row>
+      
       <Tables />
     </>
   );

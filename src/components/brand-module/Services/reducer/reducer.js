@@ -10,7 +10,7 @@ export default function BrandsReduce(state = initialState, action) {
       return { ...state, brands: action.payload.data.data };
     case BRANDS_DATA.BRAND_UPDATE:
       return { ...state, brand: action.payload.data.data };
-    case BRANDS_DATA.RESET_STATE:
+    case BRANDS_DATA.RESET_STATE_BRANS:
       return {
         brands: [],
         brand: undefined,

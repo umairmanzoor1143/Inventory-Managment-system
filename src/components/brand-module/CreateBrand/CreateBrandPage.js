@@ -14,7 +14,7 @@ const CreateBrandPage = () => {
     Dispatch(brandsAction());
     return () => {
       Dispatch({
-        type : BRANDS_DATA.RESET_STATE
+        type : BRANDS_DATA.RESET_STATE_BRANS
       });
     }
   }, []);

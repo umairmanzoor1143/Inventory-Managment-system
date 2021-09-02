@@ -24,7 +24,6 @@ import { CetagorieUpdateAction } from '../Services/Actions/action'
 const CreateNewCetagories = () => {
   const { TextArea } = Input;
   const [form] = Form.useForm();
-
   const Dispatch = useDispatch();
   const myparams = useParams()
   const history = useHistory();
@@ -35,21 +34,21 @@ const CreateNewCetagories = () => {
     };
     return () => {
       Dispatch({
-        type : CETAGORIES_DATA.RESET_STATE
+        type : CETAGORIES_DATA.RESET_CETAGORIES_STATE
       });
       form.resetFields();
     };
     
   }, []);
 
-  const myState = useSelector((state) => state.CetagorieReduce.Cetagorie);
+  const myState = useSelector((state) => state.CetagoriesReduce.Cetagories);
   console.log(myState); 
 
   useEffect(() => {
     if(myState){
       const values = {
         ...myState,
-        logo : myState.logo ? [{ uid: 1, url: myState.logo }] : null,
+        image : myState.image ? [{ uid: 1, url: myState.image }] : null,
         storyCover: myState.storyCover ? [{ uid: 1, url: myState.storyCover }] : null,
         metaKeywords: myState.metaKeywords?.split(','),
       };
@@ -77,7 +76,7 @@ const CreateNewCetagories = () => {
           >
             <Col lg={24} sm={24} md={24}>
               <Form.Item
-                name={["user", "name"]}
+                name={"name"}
                 label="Name"
                 rules={[{ required: true }]}
               >
@@ -86,7 +85,7 @@ const CreateNewCetagories = () => {
             </Col>
             <Col lg={24} sm={24} md={24}>
               <Form.Item
-                name={["slug", "slug"]}
+                name={"slug"}
                 label="Slug"
                 rules={[{ required: true }]}
               >
@@ -101,7 +100,7 @@ const CreateNewCetagories = () => {
             </Col>
             </Col>
             <Col lg={24} sm={24} md={24}>
-              <Form.Item label="Image">
+              <Form.Item label="Image" name='image'>
                 <UploadImage />
               </Form.Item>
             </Col>
@@ -111,7 +110,7 @@ const CreateNewCetagories = () => {
               style={{ width: "90%", margin: 50, textAlign: "left" }}
             >
               <Col lg={24} sm={24} md={24}>
-                <Form.Item label="Meta Keywords">
+                <Form.Item label="Meta Keywords" name='metaKeywords'>
                   <AddTags />
                 </Form.Item>
               </Col>
@@ -121,7 +120,7 @@ const CreateNewCetagories = () => {
                 </Form.Item>
               </Col>
               <Col lg={24} sm={24} md={24}>
-                <Form.Item label="Meta Discription">
+                <Form.Item label="Meta Discription" name='metaDescription'>
                   <TextArea showCount maxLength={100} />
                 </Form.Item>
               </Col>
@@ -132,12 +131,12 @@ const CreateNewCetagories = () => {
               style={{ width: "90%", margin: 50, textAlign: "left" }}
             >
               <Col lg={24} sm={24} md={24}>
-                <Form.Item label="Story Text">
+                <Form.Item label="Story Text" name='storyText'>
                   <TextArea showCount maxLength={100} />
                 </Form.Item>
               </Col>
               <Col lg={24} sm={24} md={24}>
-                <Form.Item label="Story Cover">
+                <Form.Item label="Story Cover" name='storyCover'>
                   <UploadImage />
                 </Form.Item>
               </Col>

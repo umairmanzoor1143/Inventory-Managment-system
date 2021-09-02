@@ -6,23 +6,21 @@ import "./style.css";
 import Tables from "../table/table";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  suppliersAction,
-  cetagorysAction,
-} from "../../../Services/Actions/action";
-
-
+import { ProductsAction } from "../Services/Actions/action";
+import { PRODUCTS_DATA } from "../Services/constent";
 const CreateProductPage = () => {
-  const Dispatch = useDispatch();
   const [expand, setExpand] = useState(true);
-  useEffect(() => {
-    Dispatch(suppliersAction());
-    Dispatch(cetagorysAction());
-  }, []);
-  const myState = useSelector((state) => state);
- 
+  const Dispatch = useDispatch();
   const [form] = Form.useForm();
-
+  useEffect(() => {
+    Dispatch(ProductsAction());
+    return () => {
+      Dispatch({
+        type : PRODUCTS_DATA.PRODUCT_RESET_STATE
+      });
+      form.resetFields();
+    }
+  }, []);
   const getFields = (props) => {
     if (props === 2) {
       return <TwoInputs />;

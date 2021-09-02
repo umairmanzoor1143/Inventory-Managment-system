@@ -31,7 +31,7 @@ const CreateNewBrand = () => {
     };
     return () => {
       Dispatch({
-        type : BRANDS_DATA.RESET_STATE
+        type : BRANDS_DATA.RESET_STATE_BRANS
       });
       form.resetFields();
     };

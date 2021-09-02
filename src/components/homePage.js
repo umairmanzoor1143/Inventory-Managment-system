@@ -155,6 +155,9 @@ const HomePage = () => {
               <Route path="/cetagories/createnew">
                 <CreateNewCetagories />
               </Route>    
+              <Route path="/product-module/cetagory/update/:id" exact>
+                <CreateNewCetagories />
+              </Route> 
               <Route path='/product-module/brands/update/:id' exact>
                 <CreateNewBrand />
               </Route>

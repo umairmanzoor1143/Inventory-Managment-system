@@ -2,6 +2,11 @@ import { Form, Input, Button, Select, Col, Row, Cascader,Divider } from "antd";
 import UploadImage from "./UploadImg";
 import { Empty, Card } from "antd";
 import { useDispatch, useSelector } from "react-redux";
+import { brandsAction } from "../../brand-module/Services/Actions/action";
+import { ProCetagoriesAction } from "../../Cetagories-module/Services/Actions/action";
+import { useEffect } from "react";
+import { BRANDS_DATA } from "../../brand-module/Services/constent";
+import { CETAGORIES_DATA } from "../../Cetagories-module/Services/constent";
 
 const validateMessages = {
   required: "${label} is required!",
@@ -14,19 +19,35 @@ const validateMessages = {
   },
 };
 const CreateNewPage = () => {
-  const myState = useSelector((state) => state);
-  
-  const BrandStatus = myState.BrandsReduce.Brands || [];
-  const SuppliersStatus = myState.suppliersReduce.suppliers || [];
-  const cetagorysStatus = myState.cetagorysReduce.cetagory || [];
-  console.log(myState);
+  const [form] = Form.useForm();
+  const Dispatch = useDispatch();
+  useEffect(() => {
+      Dispatch(brandsAction());
+      Dispatch(ProCetagoriesAction());
+      return () => {
+        
+        Dispatch({
+          type : BRANDS_DATA.RESET_STATE_BRANS
+        });
+        Dispatch({
+          type : CETAGORIES_DATA.RESET_CETAGORIES_STATE
+        });
+        form.resetFields();
+      };
+  }, []);
 
+
+  const myState = useSelector((state) => state);
+  console.log(myState);
+  
+  const BrandStatus = myState.BrandsReduce.brands || [];
+  const SuppliersStatus =  [];
+  const options = myState.CetagoriesReduce.Cetagories || [];
+  console.log(options);
   const onFinish = (values: any) => {
     console.log(values);
   };
-  function onChange(value) {
-    console.log(value);
-  }
+
   return (
     <>
       <Card
@@ -40,6 +61,7 @@ const CreateNewPage = () => {
           style={{ margin: "30px", background: "#fff", padding: "30px" }}
           name="nest-messages"
           onFinish={onFinish}
+          form={form}
           validateMessages={validateMessages}
         >
           <Form.Item
@@ -116,20 +138,13 @@ const CreateNewPage = () => {
             </Col>
           </Row>
           <Form.Item
-            name={["user", "age"]}
+            name='categorys'
             rules={[{ required: true }]}
             label="Category"
           >
-            <Select>
-            {cetagorysStatus.map((item) => (
-                    <>
-                      <Select.Option value={item.name}>
-                        {item.name}
-                      </Select.Option>
-                    </>
-                  ))}
-         
-            </Select>
+            
+            <Cascader options={options} />
+            
           </Form.Item>
           <Form.Item name={["user", "Description"]} label="Description">
             <Input.TextArea />
