@@ -15,3 +15,11 @@ export const ProductsVariationAction = (id) => {
         Dispatch({type : PRODUCTS_DATA.PRODUCTS_VARIATION, payload : response})
     }
 }
+
+export const ProductUpdateAction = (id) => {
+    console.log(id);
+    return async function  ProductsCallBack (Dispatch, getState) {
+        const response = await axios.get(`http://localhost:4040/products/${id}`);
+        Dispatch({type : PRODUCTS_DATA.PRODUCT_DATA_UPDATE, payload : response})
+    }
+}

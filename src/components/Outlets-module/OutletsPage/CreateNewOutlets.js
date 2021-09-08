@@ -1,6 +1,8 @@
 import { Form, Input, Button, Select, Col, Row } from "antd";
 import { Card } from "antd";
 import { useParams } from "react-router";
+import { useHistory } from "react-router";
+
  /* eslint-disable no-template-curly-in-string */
  const validateMessages = {
   required: "${label} is required!",
@@ -14,6 +16,7 @@ import { useParams } from "react-router";
 };
 /* eslint-enable no-template-curly-in-string */
 const CreateNewOutlets = () => {
+  const history = useHistory();
   const { TextArea } = Input;
   const myparams = useParams()
 console.log(myparams);
@@ -79,10 +82,10 @@ console.log(myparams);
               </Form.Item>
             </Col>
                 <Form.Item>
-                  <Button style={{marginRight : 20}} type="primary" htmlType="submit">
+                  <Button  style={{marginRight : 20}} type="primary" htmlType="submit">
                     Submit
                   </Button>
-                  <Button>Cancel</Button>
+                  <Button  onClick={()=>history.push("/outlets")}>Cancel</Button>
                 </Form.Item>
           </Form>
         </Row>

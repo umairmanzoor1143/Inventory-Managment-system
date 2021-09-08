@@ -16,4 +16,3 @@ export const brandUpdateAction = (id) => {
         Dispatch({type : BRANDS_DATA.BRAND_UPDATE, payload : response})
     }
 }
-

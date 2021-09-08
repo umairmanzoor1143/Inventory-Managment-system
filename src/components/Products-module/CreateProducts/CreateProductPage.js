@@ -14,6 +14,7 @@ const CreateProductPage = () => {
   const [form] = Form.useForm();
   useEffect(() => {
     Dispatch(ProductsAction());
+
     return () => {
       Dispatch({
         type : PRODUCTS_DATA.PRODUCT_RESET_STATE

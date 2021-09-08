@@ -7,7 +7,10 @@ import { ProCetagoriesAction } from "../../Cetagories-module/Services/Actions/ac
 import { useEffect } from "react";
 import { BRANDS_DATA } from "../../brand-module/Services/constent";
 import { CETAGORIES_DATA } from "../../Cetagories-module/Services/constent";
-
+import { useHistory, useParams } from "react-router";
+import { PRODUCTS_DATA } from "../Services/constent";
+import { ProductUpdateAction } from "../Services/Actions/action";
+import { SuppliersAction } from "../../Suppliers/Services/Actions/action";
 const validateMessages = {
   required: "${label} is required!",
   types: {
@@ -21,27 +24,44 @@ const validateMessages = {
 const CreateNewPage = () => {
   const [form] = Form.useForm();
   const Dispatch = useDispatch();
+  const myparams = useParams()
+  const history = useHistory();
   useEffect(() => {
+    if(myparams.id){
+      Dispatch(ProductUpdateAction(myparams.id));
+    }else{
       Dispatch(brandsAction());
       Dispatch(ProCetagoriesAction());
+      Dispatch(SuppliersAction());
+    }
       return () => {
+        if(myparams.id){
+          Dispatch({
+            type : PRODUCTS_DATA.PRODUCT_RESET_STATE
+          });
+        }else{
+          Dispatch({
+            type : BRANDS_DATA.RESET_STATE_BRANS
+          });
+          Dispatch({
+            type : CETAGORIES_DATA.RESET_CETAGORIES_STATE
+          });
+          form.resetFields();
+        }
         
-        Dispatch({
-          type : BRANDS_DATA.RESET_STATE_BRANS
-        });
-        Dispatch({
-          type : CETAGORIES_DATA.RESET_CETAGORIES_STATE
-        });
-        form.resetFields();
       };
   }, []);
 
 
   const myState = useSelector((state) => state);
   console.log(myState);
-  
+  const ProductStatus = myState.ProductsReduce.Product || [];
+  useEffect(() => {
+      // form.setFieldsValue(ProductStatus);
+      console.log(ProductStatus);
+  }, [ProductStatus]);
   const BrandStatus = myState.BrandsReduce.brands || [];
-  const SuppliersStatus =  [];
+  const SuppliersStatus = myState.SuppliersReduce.Suppliers || [];
   const options = myState.CetagoriesReduce.Cetagories || [];
   console.log(options);
   const onFinish = (values: any) => {
@@ -65,14 +85,14 @@ const CreateNewPage = () => {
           validateMessages={validateMessages}
         >
           <Form.Item
-            name={["user", "name"]}
+            name="name"
             label="Name"
             rules={[{ required: true }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            name={["user", "email"]}
+            name="slug"
             label="Slug"
             rules={[{ required: true }]}
           >
@@ -81,7 +101,7 @@ const CreateNewPage = () => {
           <Row gutter={15}>
             <Col lg={12} md={12} sm={12}>
               <Form.Item
-                name={["Supplier", "Supplier"]}
+                name="supplier"
                 label="Supplier"
                 rules={[{ required: true }]}
               >
@@ -98,7 +118,7 @@ const CreateNewPage = () => {
             </Col>
             <Col lg={12} md={12} sm={12}>
               <Form.Item
-                name={["Brand", "Brand"]}
+                name="brand"
                 label="Brand"
                 rules={[{ required: true }]}
               >
@@ -117,7 +137,7 @@ const CreateNewPage = () => {
           <Row gutter={15}>
             <Col lg={12} md={12} sm={12}>
               <Form.Item
-                name={["ProductType", "ProductType"]}
+                name="productType"
                 label="Product Type"
               >
                 <Select>
@@ -129,7 +149,7 @@ const CreateNewPage = () => {
               </Form.Item>
             </Col>
             <Col lg={12} md={12} sm={12}>
-              <Form.Item name={["Stock", "Stock"]} label="Stock Available At">
+              <Form.Item name="Stock" label="Stock Available At">
                 <Select>
                   <Select.Option value="Web">Web</Select.Option>
                   <Select.Option value="Store">Store</Select.Option>
@@ -146,11 +166,11 @@ const CreateNewPage = () => {
             <Cascader options={options} />
             
           </Form.Item>
-          <Form.Item name={["user", "Description"]} label="Description">
+          <Form.Item name="description" label="Description">
             <Input.TextArea />
           </Form.Item>
           <Form.Item
-            name={["user", "Additional Infromation"]}
+            name="Additional Infromation"
             label="Additional Infromation"
           >
             <Input.TextArea />
@@ -167,10 +187,11 @@ const CreateNewPage = () => {
               style={{ marginRight: 20 }}
               type="primary"
               htmlType="submit"
+             
             >
               Submit
             </Button>
-            <Button>Cancel</Button>
+            <Button onClick={()=>history.push("/products")}>Cancel</Button>
           </Form.Item>
         </Form>
       </Card>

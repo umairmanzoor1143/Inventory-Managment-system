@@ -1,13 +1,11 @@
-import { Form, Input, Button, Col, Row } from "antd";
+import { Form, Input, Button, Col, Row ,Select} from "antd";
 import UploadImage from "./UploadImg";
 import { Card } from "antd";
-import AddTags from "./CreateTags";
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { brandUpdateAction} from "../Services/Actions/action";
 import { useEffect, useState } from "react";
-import { BRANDS_DATA } from "../Services/constent";
-import axios from "axios";
+import { SUPPLIERS_DATA } from "../Services/constent";
+import { SuppliersUpdateAction } from "../Services/Actions/action";
  /* eslint-disable no-template-curly-in-string */
  const validateMessages = {
   required: "${label} is required!",
@@ -20,63 +18,45 @@ import axios from "axios";
   },
 };
 /* eslint-enable no-template-curly-in-string */
-const CreateNewBrand = () => {
+const CreateNewSuppliers = () => {
+  const { Option } = Select;
   const Dispatch = useDispatch();
   const myparams = useParams()
   const history = useHistory();
   console.log(myparams);
   useEffect(() => {
     if(myparams.id){
-      Dispatch(brandUpdateAction(myparams.id));
+      Dispatch(SuppliersUpdateAction(myparams.id));
     };
     return () => {
       Dispatch({
-        type : BRANDS_DATA.RESET_STATE_BRANS
+        type : SUPPLIERS_DATA.RESET_SUPPLIERS_STATE
       });
       form.resetFields();
     };
     
   }, []);
   
-  const myState = useSelector((state) => state.BrandsReduce.brand);
+  const myState = useSelector((state) => state.SuppliersReduce.Supplier);
   console.log(myState); 
 
   useEffect(() => {
-    if(myState){
-      const values = {
-        ...myState,
-        logo : myState.logo ? [{ uid: 1, url: myState.logo }] : null,
-        storyCover: myState.storyCover ? [{ uid: 1, url: myState.storyCover }] : null,
-        metaKeywords: myState.metaKeywords?.split(','),
-      };
-      form.setFieldsValue(values);
-    }
-    
-   
+      form.setFieldsValue(myState);
   }, [myState]);
-
- 
   const { TextArea } = Input;
   const [form] = Form.useForm();
   const onFinish = (values: any) => {
-  console.log(values);
-  if(myparams.id){
-    axios.put(`http://localhost:4040/brands/${myparams.id}`, values)
-  }else{
-    axios.post('http://localhost:4040/brands', values)
-    history.push("/brand")
+    console.log(values);
+  };
 
-  }
- 
-  };
-  const nameHandler = () => {
-    const name = form.getFieldValue('name');
-    if (name)
-      form.setFieldsValue({
-        slug: `${name.replace('-')}_${Math.floor(Math.random() * 100000)}`,
-      });
-  };
- 
+  const prefixSelector = (
+    <Form.Item name="prefix" noStyle>
+      <Select style={{ width: 70 }} defaultValue="92">
+        <Option value="92">+92</Option>
+        {/* <Option value="87">+87</Option> */}
+      </Select>
+    </Form.Item>
+  );
   return (
     <>
       <Card
@@ -95,62 +75,51 @@ const CreateNewBrand = () => {
           >
             <Col lg={24} sm={24} md={24}>
               <Form.Item
-                name="name"
-                label="Name"
+                name="companyName"
+                label="Company Name"
                 rules={[{ required: true }]}
                
               >
-                <Input  onBlur={nameHandler} />
+                <Input />
               </Form.Item>
             </Col>
             <Col lg={24} sm={24} md={24}>
               <Form.Item
-                name="slug"
-                label="Slug"
+                name="code"
+                label="Supplier Code"
                 rules={[{ required: true }]}
               >
                 <Input />
               </Form.Item>
             </Col>
             <Col lg={24} sm={24} md={24}>
-              <Form.Item label="Logo" name="logo">
-                <UploadImage />
+              <Form.Item label="Website" name="website">
+              <Input />
               </Form.Item>
             </Col>
+            <Col lg={24} sm={24} md={24}>
+                <Form.Item label="Description" name='description'>
+                  <TextArea showCount maxLength={100} />
+                </Form.Item>
+              </Col>
             <Card
-              title="Meta Information"
+              title="Contact Information"
               bordered={false}
               style={{ width: "90%", margin: 50, textAlign: "left" }}
             >
               <Col lg={24} sm={24} md={24}>
-                <Form.Item label="Meta Keywords" name='metaKeywords'>
-                  <AddTags />
+                <Form.Item label="Name" name='name'>
+                <Input />
                 </Form.Item>
               </Col>
               <Col lg={24} sm={24} md={24}>
-                <Form.Item label="Meta Title" name='metaTitle'>
-                  <Input />
+                <Form.Item label="Email" name='email'>
+                <Input />
                 </Form.Item>
               </Col>
               <Col lg={24} sm={24} md={24}>
-                <Form.Item label="Meta Discription" name='metaDescription'>
-                  <TextArea showCount maxLength={100} />
-                </Form.Item>
-              </Col>
-            </Card>
-            <Card
-              title="Meta Information"
-              bordered={false}
-              style={{ width: "90%", margin: 50, textAlign: "left" }}
-            >
-              <Col lg={24} sm={24} md={24}>
-                <Form.Item label="Story Text" name='storyText'>
-                  <TextArea showCount maxLength={100} />
-                </Form.Item>
-              </Col>
-              <Col lg={24} sm={24} md={24}>
-                <Form.Item label="Story Cover" name='storyCover'>
-                  <UploadImage />
+                <Form.Item label="Phone" name='phone'>
+                <Input addonBefore={prefixSelector} />
                 </Form.Item>
               </Col>
             </Card>
@@ -162,7 +131,7 @@ const CreateNewBrand = () => {
               >
                 Submit
               </Button>
-              <Button onClick={()=>history.push("/brand")}>Cancel</Button>
+              <Button onClick={()=>history.push("/suppliers")}>Cancel</Button>
             </Form.Item>
           </Form>
         </Row>
@@ -170,4 +139,4 @@ const CreateNewBrand = () => {
     </>
   );
 };
-export default CreateNewBrand;
+export default CreateNewSuppliers;

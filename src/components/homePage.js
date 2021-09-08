@@ -22,8 +22,8 @@ import AttributesPage from './Attributes-module/AttributesPage/AttributesPage'
 import CreateNewAttribute from './Attributes-module/AttributesPage/CreateNewAttributes'
 import CetagoriesPage from "./Cetagories-module/CetagoriesPage/CetagoriesPage";
 import CreateNewCetagories from './Cetagories-module/CetagoriesPage/CreateNewCetagories'
-
-
+import CreateNewSuppliers from './Suppliers/SuppliersPage/CreateNewSuppliers'
+import SuppliersPage from './Suppliers/SuppliersPage/SuppliersPage'
 const HomePage = () => {
   const { Header, Footer, Sider, Content } = Layout;
   const { SubMenu } = Menu;
@@ -69,7 +69,7 @@ const HomePage = () => {
               icon={<AppstoreOutlined />}
               title="Products"
             >
-              <Menu.Item style={SmFont} key="2">
+              <Menu.Item style={SmFont} key="2" >
                 <Link to='/products'>
                 Products
                 </Link>
@@ -102,7 +102,9 @@ const HomePage = () => {
               title="Precurement"
             >
               <Menu.Item style={SmFont} key="7">
+                <Link to='/suppliers'>
                 Suppliers
+                </Link>
               </Menu.Item>
             </SubMenu>
             <Menu.Item style={SmFont} key="8">
@@ -128,7 +130,7 @@ const HomePage = () => {
               <Route path="/products" exact>
                 <CreateProductPage />
               </Route>
-              <Route path="/products/createnew">
+              <Route path="/products/createnew" exact>
                 <CreateNewPage />
               </Route>
               <Route path="/brand" exact>
@@ -160,6 +162,18 @@ const HomePage = () => {
               </Route> 
               <Route path='/product-module/brands/update/:id' exact>
                 <CreateNewBrand />
+              </Route>
+              <Route path='/suppliers' exact>
+                <SuppliersPage />
+              </Route>
+              <Route path='/suppliers/createnew' exact>
+                <CreateNewSuppliers />
+              </Route>
+              <Route path='/precurement/supplier/update/:id' exact>
+                <CreateNewSuppliers />
+              </Route>
+              <Route path='/product-module/product/update/:id' exact>
+                <CreateNewPage />
               </Route>
             </Switch>
           </Content>

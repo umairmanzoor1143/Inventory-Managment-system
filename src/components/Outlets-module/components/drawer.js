@@ -1,38 +1,26 @@
+import React, { useState } from 'react';
 import { Drawer, Button } from 'antd';
-import React from 'react';
 
-class DrawerPage extends React.Component {
-  state = { visible: false };
+const SideDrawer: React.FC = (e) => {
 
-  showDrawer = () => {
-    this.setState({
-      visible: true,
-    });
+  const [visible, setVisible] = useState(false);
+  const showDrawer = () => {
+    setVisible(true);
   };
-
-  onClose = () => {
-    this.setState({
-      visible: false,
-    });
+  const onClose = () => {
+    setVisible(false);
   };
-
-
-  render() {
-    return (
-      <>
-        <Button type="primary" onClick={this.showDrawer}>
-          Open drawer
-        </Button>
-        <Drawer
-          title="Multi-level drawer"
-          width={520}
-          closable={false}
-          onClose={this.onClose}
-          visible={this.state.visible}
-        >
-        </Drawer>
-      </>
-    );
-  }
-}
-export default DrawerPage
+  return (
+    <>
+      <Button type="primary" onClick={showDrawer}>
+        Open
+      </Button>
+      <Drawer title="Basic Drawer" placement="right" onClose={onClose} visible={visible}>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Drawer>
+    </>
+  );
+};
+export default SideDrawer

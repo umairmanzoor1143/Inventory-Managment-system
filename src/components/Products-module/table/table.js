@@ -72,7 +72,7 @@ const Tables = () => {
       key: "action",
       render: (_, record: BrandItem) => (
         <span className="table-operation">
-          <a onClick={()=>history.push(`/product-module/cetagory/update/${record.id}`)}>Edit</a>
+          <a onClick={()=>history.push(`/product-module/product/update/${record.id}`)}>Edit</a>
         </span>
       ),
     }

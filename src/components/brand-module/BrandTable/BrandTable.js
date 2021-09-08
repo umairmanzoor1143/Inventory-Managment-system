@@ -2,13 +2,33 @@ import { Table, Button ,Switch} from "antd";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import { brandsAction } from "../Services/Actions/action";
+import axios from "axios";
+import { BRANDS_DATA } from "../Services/constent";
+import { useEffect, useState } from "react";
 
 const BrandTables = () => {
+  
+  const [toggle , settoggle] = useState(false)
   const Dispatch = useDispatch();
   const history = useHistory();
+  useEffect(() => {
+    Dispatch(brandsAction());
+    return () => {
+      Dispatch({
+        type : BRANDS_DATA.RESET_STATE_BRANS
+      });
+    }
+  }, []);
   const myState = useSelector((state) => state);
   const BrandStatus = myState.BrandsReduce.brands || [];
   console.log(BrandStatus);
+  const ActiveToggle = (e) => {
+    settoggle(e.Active)
+    console.log(e);
+    const data = {active : e.Active}
+    axios.put(`http://localhost:4040/brands/toggle-active/${e.id}`)
+  }
   const columns = [
     {
       title: "Name",
@@ -35,10 +55,9 @@ const BrandTables = () => {
       
       render: (_, record: BrandItem) => (
         <span>
-        <Switch checked={record.active} />
+        <Switch checked={record.active} onChange={(e)=>{ActiveToggle( {Active : e, id :record.id })}}/>
         </span>
       ),
-      sorter: (a, b) => a.name.length - b.name.length,
       },
     
     {
@@ -70,7 +89,7 @@ const BrandTables = () => {
   function onChange(pagination, filters, sorter, extra) {
     console.log("params", pagination, filters, sorter, extra);
   }
- 
+  
 
   return (
     <>

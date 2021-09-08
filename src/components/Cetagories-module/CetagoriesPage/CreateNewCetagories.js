@@ -1,4 +1,4 @@
-import { Form, Input, Button, Select, Col, Row } from "antd";
+import { Form, Input, Button, Select, Col, Row, Cascader } from "antd";
 import UploadImage from "./UploadImg";
 import { Card } from "antd";
 import AddTags from "./CetagoriesTags";
@@ -41,7 +41,7 @@ const CreateNewCetagories = () => {
     
   }, []);
 
-  const myState = useSelector((state) => state.CetagoriesReduce.Cetagories);
+  const myState = useSelector((state) => state.CetagoriesReduce.Cetagorie);
   console.log(myState); 
 
   useEffect(() => {
@@ -52,6 +52,7 @@ const CreateNewCetagories = () => {
         storyCover: myState.storyCover ? [{ uid: 1, url: myState.storyCover }] : null,
         metaKeywords: myState.metaKeywords?.split(','),
       };
+      console.log(values); 
       form.setFieldsValue(values);
     }
   },[myState]);
@@ -76,7 +77,7 @@ const CreateNewCetagories = () => {
           >
             <Col lg={24} sm={24} md={24}>
               <Form.Item
-                name={"name"}
+                name="name"
                 label="Name"
                 rules={[{ required: true }]}
               >
@@ -85,7 +86,7 @@ const CreateNewCetagories = () => {
             </Col>
             <Col lg={24} sm={24} md={24}>
               <Form.Item
-                name={"slug"}
+                name="slug"
                 label="Slug"
                 rules={[{ required: true }]}
               >
@@ -93,9 +94,7 @@ const CreateNewCetagories = () => {
               </Form.Item>
               <Col lg={24} md={24} sm={24}>
             <Form.Item label="Parnet Cetagory">
-              <Select >
-                <Select.Option value="demo">Demo</Select.Option>
-              </Select>
+            <Cascader />
             </Form.Item>
             </Col>
             </Col>
@@ -146,10 +145,11 @@ const CreateNewCetagories = () => {
                 style={{ marginRight: 20 }}
                 type="primary"
                 htmlType="submit"
+              
               >
                 Submit
               </Button>
-              <Button>Cancel</Button>
+              <Button onClick={()=>history.push("/cetagories")}>Cancel</Button>
             </Form.Item>
           </Form>
         </Row>

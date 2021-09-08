@@ -1,7 +1,7 @@
 import { PRODUCTS_DATA } from "../constent";
 const initialState = {
   Products: [],
-  Product: undefined,
+  Product: [],
   ProductsVariation : []
 };
 
@@ -12,13 +12,13 @@ export default function ProductsReduce(state = initialState, action) {
         return { ...state, Products:  action.payload.data.data };
         case PRODUCTS_DATA.PRODUCTS_VARIATION:
         return { ...state, ProductsVariation:  action.payload.data.data };
-      case PRODUCTS_DATA.PRODUCT_UPDATE:
+      case PRODUCTS_DATA.PRODUCT_DATA_UPDATE:
         return { ...state, Product: action.payload.data.data };
-      case PRODUCTS_DATA.RESET_PRODUCT_RESET_STATE:
+      case PRODUCTS_DATA.PRODUCT_RESET_STATE:
         return {
             Products: [],
-            Product: undefined,
-            ProductsVariation : [],
+            Product: [],
+            ProductsVariation: [],
         };
       default:
         return state;

@@ -1,33 +1,30 @@
-import React from "react";
-import { Form, Row, Col, Button, Drawer } from "antd";
-import TwoInputs from "./OutletsInputs";
+import React, { useEffect } from "react";
+import { Form, Row, Col, Input, Button, Spin } from "antd";
+import TwoInputs from "./SuppliersInputs";
 import "./style.css";
-import Tables from "../OutletTable/table";
+import Tables from "../SuppliersTable/table";
+import { SuppliersAction } from "../Services/Actions/action";
 import { useDispatch } from "react-redux";
-import {OUTLETS_DATA} from '../Services/constent'
-import { useEffect, useState } from "react";
-import {outletsAction} from '../Services/Actions/action'
+import { SUPPLIERS_DATA } from "../Services/constent";
 
-const OutletsPage = () => {
-  const [visibility ,setVisibilty] = useState(false)
+const SuppliersPage = () => {
+  const [form] = Form.useForm();
   const Dispatch = useDispatch();
   useEffect(() => {
-    Dispatch(outletsAction());
+    Dispatch(SuppliersAction());
     return () => {
       Dispatch({
-        type : OUTLETS_DATA.RESET_STATE
+        type : SUPPLIERS_DATA.RESET_SUPPLIERS_STATE
       });
+      form.resetFields();
     }
   }, []);
-  const [form] = Form.useForm();
-
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
 
   return (
     <>
-  
     <Row>
       <Form
         style={{ margin: "30px" ,width: '100%'}}
@@ -52,8 +49,9 @@ const OutletsPage = () => {
         </Col>
       </Form>
       </Row>
+      
       <Tables />
     </>
   );
 };
-export default OutletsPage;
+export default SuppliersPage;
